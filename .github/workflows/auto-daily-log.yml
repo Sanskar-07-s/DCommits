@@ -1,0 +1,36 @@
+name: Automatic Daily Log
+
+on:
+  schedule:
+    - cron: '0 18 * * *' # Every day at 18:00 UTC
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Random Delay
+        run: sleep $((RANDOM % 3600)) # Delays up to 1 hour to vary commit times
+
+      - name: Generate Daily Log
+        run: python scripts/generate_daily_log.py
+
+      - name: Commit and Push Changes
+        run: |
+          MESSAGES=("docs: update daily progress 📝" "feat: log development notes for today" "chore: daily journal update 🚀" "docs: daily log for $(date +'%Y-%m-%d')" "feat: tracking learning topics for today")
+          RANDOM_MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
+          git config --global user.name "Sanskar"
+          git config --global user.email "sanskardhat6@gmail.com"
+          git add logs/
+          git commit -m "$RANDOM_MSG" || echo "No changes to commit"
+          git push

@@ -1,0 +1,4 @@
+# Daily Dev Log Automation System Requirements
+# This project uses ONLY the Python Standard Library.
+# No external dependencies are required.
+# Minimum Python Version: 3.9+
