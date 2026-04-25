@@ -29,27 +29,34 @@ def generate_daily_log():
     timestamp = datetime.datetime.now().strftime("%H:%M:%S")
     daily_tip = random.choice(TIPS)
     
-    template = f"""# Daily Dev Log - {datetime.datetime.now().strftime("%Y-%m-%d")}
-
-> **Daily Dev Tip:** {daily_tip}
-
-## Learning Topic
-- 
-
-## Code Written
-- 
-
-## Problems Faced
-- 
-
-## Solutions
-- 
-
-## Tomorrow Plan
-- 
+    template = f"""# 📝 Daily Dev Log | {datetime.datetime.now().strftime("%B %d, %Y")}
 
 ---
-*Log generated at {timestamp}*
+
+### 💡 Daily Dev Tip
+> {daily_tip}
+
+---
+
+## 🧠 Learning & Discovery
+- [ ] *What did you learn today?*
+
+## 💻 Code & Implementation
+- [ ] *Key features or bug fixes...*
+
+## ⚠️ Challenges & Roadblocks
+- [ ] *Any issues faced?*
+
+## ✅ Solutions & Breakthroughs
+- [ ] *How did you solve them?*
+
+## 📅 Plan for Tomorrow
+- [ ] *Next steps...*
+
+---
+<p align="right">
+  <i>Generated with ❤️ at {timestamp}</i>
+</p>
 """
 
     if not log_path.exists():

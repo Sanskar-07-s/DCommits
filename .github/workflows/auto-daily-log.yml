@@ -19,8 +19,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Random Delay
-        run: sleep $((RANDOM % 3600)) # Delays up to 1 hour to vary commit times
+      - name: Buffer Delay
+        run: sleep $((RANDOM % 300)) # Small delay to vary commit times slightly
 
       - name: Generate Daily Log
         run: python scripts/generate_daily_log.py
