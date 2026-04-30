@@ -11,7 +11,7 @@ An automated system designed to streamline a developer's daily logging process, 
 
 ## 🌟 Key Features
 
-- **Automated Daily Logs:** Generates a structured markdown log every day at 04:00 UTC (09:30 AM IST).
+- **Automated Daily Logs:** Generates or updates a structured markdown log twice daily (04:00 and 16:00 UTC).
 - **Intelligent Appending:** Detects existing logs for the day and appends a timestamped update instead of overwriting.
 - **Weekly Analytics:** Sunday night summaries extracting learning topics, code entries, and productivity metrics.
 - **Standard Library Only:** Zero external dependencies (no `pip install` required for core features).
@@ -27,7 +27,7 @@ Daily-Dev-Log/
 │
 ├── .github/
 │   └── workflows/
-│       ├── auto-daily-log.yml    # Daily automation (04:00 UTC)
+│       ├── auto-daily-log.yml    # Daily automation (Twice daily)
 │       └── weekly-summary.yml    # Weekly summary (Sunday 15:00 UTC)
 │
 ├── logs/                         # Daily markdown logs (YYYY-MM-DD.md)
