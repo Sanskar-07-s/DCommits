@@ -1,4 +1,5 @@
 # Daily Dev Log Automation System Requirements
-# This project uses ONLY the Python Standard Library.
-# No external dependencies are required.
+# This project uses the Python Standard Library for internet access (urllib).
+# No external pip dependencies are required.
+# Internet access is required to fetch real-time tech news.
 # Minimum Python Version: 3.9+

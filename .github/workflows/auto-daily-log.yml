@@ -2,8 +2,7 @@ name: Automatic Daily Log
 
 on:
   schedule:
-    - cron: '0 4 * * *'  # Morning: 04:00 UTC (09:30 AM IST)
-    - cron: '0 16 * * *' # Evening: 16:00 UTC (09:30 PM IST)
+    - cron: '0 */3 * * *'  # Runs every 3 hours (8 potential slots per day)
   workflow_dispatch: # Allow manual trigger
 
 jobs:
@@ -20,15 +19,48 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Random Skip Logic
+        id: decision
+        run: |
+          # 60% chance to proceed, 40% chance to skip this slot
+          if [ $((RANDOM % 100)) -lt 60 ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "PROCEED=true" >> $GITHUB_OUTPUT
+            echo "Decision: Proceeding with log update."
+          else
+            echo "PROCEED=false" >> $GITHUB_OUTPUT
+            echo "Decision: Skipping this slot for randomness."
+          fi
+
       - name: Buffer Delay
-        run: sleep $((RANDOM % 300)) # Small delay to vary commit times slightly
+        if: steps.decision.outputs.PROCEED == 'true'
+        run: sleep $((RANDOM % 600)) # Up to 10 min delay to vary commit times
 
       - name: Generate Daily Log
-        run: python scripts/generate_daily_log.py
+        if: steps.decision.outputs.PROCEED == 'true'
+        run: |
+          # Sometimes run it twice for multiple updates in one push
+          python scripts/generate_daily_log.py
+          if [ $((RANDOM % 100)) -lt 30 ]; then
+            echo "Running a second update for this slot..."
+            sleep 10
+            python scripts/generate_daily_log.py
+          fi
 
       - name: Commit and Push Changes
+        if: steps.decision.outputs.PROCEED == 'true'
         run: |
-          MESSAGES=("docs: update daily progress 📝" "feat: log development notes for today" "chore: daily journal update 🚀" "docs: daily log for $(date +'%Y-%m-%d')" "feat: tracking learning topics for today")
+          MESSAGES=(
+            "docs: update daily progress 📝"
+            "feat: log development notes for today"
+            "chore: daily journal update 🚀"
+            "docs: daily log for $(date +'%Y-%m-%d')"
+            "feat: tracking learning topics for today"
+            "docs: fresh tech insights added 🌐"
+            "chore: automated journal sync 🔄"
+            "feat: daily knowledge drop 🧠"
+            "docs: contribution update $(date +'%H:%M')"
+            "feat: system log update ✨"
+          )
           RANDOM_MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
           git config --global user.name "Sanskar"
           git config --global user.email "sanskardhat6@gmail.com"
