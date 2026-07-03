@@ -1,4 +1,4 @@
-# 📝 Daily Dev Log Automation System
+# 📝 Daily Dev Log Automation System Structure
 
 [![GitHub License](https://img.shields.io/github/license/Sanskar/Daily-Dev-Log?style=flat-square&color=blue)](LICENSE)
 [![Daily Log Action](https://github.com/Sanskar/Daily-Dev-Log/actions/workflows/auto-daily-log.yml/badge.svg)](https://github.com/Sanskar/Daily-Dev-Log/actions/workflows/auto-daily-log.yml)
